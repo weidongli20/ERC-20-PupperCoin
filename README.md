@@ -6,7 +6,7 @@
 
 To Crowdsale the PupperCoin token in order to help fund the network development that will be used to track the dog breeding activity across the globe in a decentralized way, and allow humans to track the genetic trail of their pets. 
 
-And it is required to enable refunds if the crowdsale is successful and the goal is met, which is to raise a maximum of 300 Ether. The crowdsale will run for 24 weeks.
+It is required to enable refunds if the crowdsale is successful and the goal is met, which is to raise a maximum of 300 Ether. The crowdsale will run for 24 weeks.
 
 Will need to create an ERC20 token that will be minted through a `Crowdsale` contract that can be leveraged from the OpenZeppelin Solidity library.
 
@@ -63,20 +63,41 @@ This contract will model the deployment based off of the `ArcadeTokenCrowdsaleDe
 
 ### Testing the Crowdsale
 
-Test the crowdsale by sending Ether to the crowdsale from a different account (**not** the same account that is raising funds), then once you confirm that the crowdsale works as expected, try to add the token to MyCrypto and test a transaction. You can test the time functionality by replacing `now` with `fakenow`, and creating a setter function to modify `fakenow` to whatever time you want to simulate. You can also set the `close` time to be `now + 5 minutes`, or whatever timeline you'd like to test for a shorter crowdsale.
+Test the crowdsale by sending Ether to the crowdsale from a different account (**not** the same account that is raising funds), then once you confirm that the crowdsale works as expected, try to add the token to MetaMask and test a transaction. You can test the time functionality by setting the `close` time to be `now + 10 minutes`, or whatever timeline you'd like to test for a shorter crowdsale.
 
 When sending Ether to the contract, make sure you hit your `goal` that you set, and `finalize` the sale using the `Crowdsale`'s `finalize` function. In order to finalize, `isOpen` must return false (`isOpen` comes from `TimedCrowdsale` which checks to see if the `close` time has passed yet). Since the `goal` is 300 Ether, you may need to send from multiple accounts. If you run out of prefunded accounts in Ganache, you can create a new workspace.
 
-Remember, the refund feature of `RefundablePostDeliveryCrowdsale` only allows for refunds once the crowdsale is closed **and** the goal is met. See the [OpenZeppelin RefundableCrowdsale](https://docs.openzeppelin.com/contracts/2.x/api/crowdsale#RefundableCrowdsale) documentation for details as to why this is logic is used to prevent potential attacks on your token's value.
+The refund feature of `RefundablePostDeliveryCrowdsale` only allows for refunds once the crowdsale is closed **and** the goal is met. See the [OpenZeppelin RefundableCrowdsale](https://docs.openzeppelin.com/contracts/2.x/api/crowdsale#RefundableCrowdsale) documentation for details as to why this is logic is used to prevent potential attacks on your token's value.
 
-You can add custom tokens in MyCrypto from the `Add custom token` feature:
+You can add custom tokens in MetaMask from the `Add custom token` feature.
 
-![add-custom-token](https://i.imgur.com/p1wwXQ9.png)
+![add-custom-token](Images/MetaMask-2.png)
 
-You can also do the same for MetaMask. Make sure to purchase higher amounts of tokens in order to see the denomination appear in your wallets as more than a few wei worth.
 
 ### Deploying the Crowdsale
 
-Deploy the crowdsale to the Kovan or Ropsten testnet, and store the deployed address for later. Switch MetaMask to your desired network, and use the `Deploy` tab in Remix to deploy your contracts. Take note of the total gas cost, and compare it to how costly it would be in reality. Since you are deploying to a network that you don't have control over, faucets will not likely give out 300 test Ether. You can simply reduce the goal when deploying to a testnet to an amount much smaller, like 10,000 wei.
+Deploy the crowdsale to the Ganache testnet in the follwing order. (The procedures are the same to deploy to other testnets.) 
 
+1. Open Ganache and MetaMask, connect to the local network, and pre-fund the address if needs to ensure successful deployment of the contract as it would require some Gas.
 
+2. Use the Deploy tab in Remix to deploy the  `PupperCoinSaleDeployer` contract. Store the deployed addresses for later. Parameters required: name of the token (`PupperCoin`), symbol (`PUP`), wallet (the `address` to fund), and goal (crowdsale cap `300 ETH`).
+
+3. Load the `PupperCoinSale` and `PupperCoin` contracts via their deployed addresses from step 2 using the `At Address` feature in the `Deploy` tab of Remix.
+
+4. Make a test purchase by setting the `value` field to some Ether value and calling the `buyTokens` function on the `PupperCoinSale` contract.
+
+5. When `goal` is hit and `isOpen` return to false, `finalize` the sale using the `Crowsale`'s `finalize` functions.
+
+6. View `PUP` Tokens purchased on MetaMask wallet after `finalize` the sale using the `Crowsale`'s `finalize` functions.  
+
+![PUP](Images/MetaMask-3.png)
+
+6. MetaMask wallet gives an overview of `ETH` and `PUP` token.
+
+![ETH](Images/MetaMask-1.png)
+
+## Resources
+
+* If you would like to see the parameters you need to pass to `Crowdsale` on-hand, visit the [OpenZeppelin API documentation](https://docs.openzeppelin.com/contracts/2.x/api/crowdsale#_core) for the details.
+
+* The [Crowdsales Overview](https://docs.openzeppelin.com/contracts/2.x/crowdsales) page on OpenZeppelin's documentation also serves as a good resource for how crowdsales work in detail, and the nuances of different implementations provided.
