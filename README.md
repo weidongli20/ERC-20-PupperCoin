@@ -63,7 +63,7 @@ This contract will model the deployment based off of the `ArcadeTokenCrowdsaleDe
 
 ### Testing the Crowdsale
 
-Testing the crowdsale, send Ether to the crowdsale from a different account (**not** the same account that is raising funds), then once you confirm that the crowdsale works as expected, try to add the token to MetaMask and test a transaction. You can test the time functionality by setting the `close` time to be `now + 10 minutes`, or whatever timeline you'd like to test for a shorter crowdsale.
+To test the crowdsale, send Ether to the crowdsale from a different account (**not** the same account that is raising funds), then once you confirm that the crowdsale works as expected, try to add the token to MetaMask and test a transaction. You can test the time functionality by setting the `close` time to be `now + 10 minutes`, or whatever timeline you'd like to test for a shorter crowdsale.
 
 When sending Ether to the contract, make sure you hit your `goal` that you set, and `finalize` the sale using the `Crowdsale`'s `finalize` function. In order to finalize, `isOpen` must return false (`isOpen` comes from `TimedCrowdsale` which checks to see if the `close` time has passed yet). Since the `goal` is 300 Ether, you may need to send from multiple accounts. If you run out of prefunded accounts in Ganache, you can create a new workspace.
 
@@ -74,7 +74,7 @@ You can add custom tokens in MetaMask from the `Add custom token` feature.
 ![add-custom-token](Images/MetaMask-2.png)
 
 
-### Deploying the Crowdsale
+#### Deploying the Crowdsale
 
 Testing deployment the crowdsale to the Ganache testnet in the follwing order: (The procedures are the same to deploy to other network.) 
 
@@ -92,7 +92,7 @@ Testing deployment the crowdsale to the Ganache testnet in the follwing order: (
 
 ![PUP](Images/MetaMask-3.png)
 
-6. MetaMask wallet also gives an overview of `ETH` and `PUP` token.
+6. MetaMask wallet would also give an overview of `ETH` and `PUP` token.
 
 ![ETH](Images/MetaMask-1.png)
 
